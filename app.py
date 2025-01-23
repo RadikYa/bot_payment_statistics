@@ -7,15 +7,17 @@ app = Flask(__name__)
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 SPREADSHEET_SCRIPT_URL = os.getenv("SPREADSHEET_SCRIPT_URL")
 
-@app.route("/")
+@app.route('/webhook', methods=['POST'])
 def home():
-    return "Webhook is running!"
-
-@app.route(f"/{BOT_TOKEN}", methods=["POST"])
-def telegram_webhook():
+    # Получаем данные из запроса
     data = request.json
-    if not data:
-        return "No data received", 400
+    print(f"Received data: {data}")  # Лог для проверки
+    return "OK", 200
+
+# Главная страница для проверки работы сервера (опционально)
+@app.route('/', methods=['GET'])
+def home():
+    return "Webhook server is running!", 200
 
     # Проверяем, содержит ли сообщение 'to'lov:'
     message = data.get("message", {}).get("text", "")
@@ -24,4 +26,4 @@ def telegram_webhook():
     return "OK", 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+    app.run(host='0.0.0.0', port=8080)
