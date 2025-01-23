@@ -23,18 +23,5 @@ def telegram_webhook():
         requests.post(SPREADSHEET_SCRIPT_URL, json={"message": message})
     return "OK", 200
 
-# Обработка Webhook запросов
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    # Получаем данные из запроса
-    data = request.json
-    print(f"Received data: {data}")  # Лог для проверки
-    return "OK", 200
-
-# Главная страница для проверки работы сервера (опционально)
-@app.route('/', methods=['GET'])
-def home():
-    return "Webhook server is running!", 200
-
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
