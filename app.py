@@ -13,7 +13,7 @@ def home():
 
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def telegram_webhook():
-    data = grequest.json
+    data = request.json  # Исправлено 'grequest' на 'request'
     if not data:
         return "No data received", 400
 
@@ -24,4 +24,6 @@ def telegram_webhook():
     return "OK", 200
 
 if __name__ == "__main__":
+    # Локальный запуск
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
+
